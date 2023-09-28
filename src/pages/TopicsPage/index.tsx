@@ -4,6 +4,7 @@ import api from '../../services/api';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { TopicForm } from './components/TopicForm';
+import { TopicPage } from './styles';
 
 
 export interface Topic {
@@ -67,8 +68,10 @@ export function TopcisPage() {
 
   return (
     <>
+    <TopicPage>
       <TopicForm onAdd={handleAddTopic} /> 
       <TopicList topics={topics} />
+    </TopicPage>
     </>
   )
 }

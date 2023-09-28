@@ -1,5 +1,6 @@
 import React from "react"
 import { useRef } from "react"
+import { FormStyled } from "./styles"
 
 interface TopicFormProps {
   onAdd: (text: string) => void
@@ -21,9 +22,12 @@ export function TopicForm({ onAdd }: TopicFormProps) {
 
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" ref={descriptionInputRef} placeholder="Descrição da Topic" />
-      <input type="submit" value="Adicionar Tarefa" />
-    </form>
+    <FormStyled>
+        <form onSubmit={handleSubmit}>
+            <input type="text" ref={descriptionInputRef} placeholder="Descrição da Topic" />
+            <input type="submit" value="Adicionar Topico" />
+        </form>
+    </FormStyled>
+   
   )
 }

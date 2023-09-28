@@ -1,5 +1,6 @@
 import React from "react"
 import { Topic } from "../.."
+import { TopicItem } from "./styles"
 
 interface TopicListItemProps {
   topic: Topic
@@ -10,7 +11,9 @@ export function TopicListItem({ topic }: TopicListItemProps) {
   return (
     <li>
       <div>
-        <p>{topic.description}</p>
+        <TopicItem>
+        {topic.description} 
+        </TopicItem> 
       </div>
     </li>)
 }
