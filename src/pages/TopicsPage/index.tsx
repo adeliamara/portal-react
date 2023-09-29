@@ -34,7 +34,6 @@ export interface Author {
 }
 
 
-
 export function TopcisPage() {
 
   const [topics, setTopic] = useState<Topic[]>([])
@@ -65,9 +64,7 @@ export function TopcisPage() {
         console.error("ops! ocorreu um erro" + err);
       });
   }
-  
-
-  
+    
   const addLikeInApi = (vote: Vote) => {
 
     const response = api.post("/votes", vote)
@@ -75,8 +72,6 @@ export function TopcisPage() {
         console.error("ops! ocorreu um erro" + err);
       });
   }
-
-
 
   const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
     const tagsArray = tags.split(',');

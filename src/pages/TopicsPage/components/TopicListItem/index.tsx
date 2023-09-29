@@ -46,7 +46,7 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
             <p className="hour">{topic.createdAt.toLocaleString('pt-br')}</p>
           </InfoTopic>
           <button onClick={() => handleVote(VoteType.UP)}>Like</button>
-          <button onClick={() => handleVote(VoteType.DOWN)}>Deslike</button>
+          <button onClick={() => handleVote(VoteType.DOWN)}>Dislike</button>
           <div className="progress-bar-container">
             <div
               className="progress-bar-like"
