@@ -20,8 +20,9 @@ export interface Vote {
 }
 
 export interface Topic {
+  id: number;
   description: string;
-  authorId: number;
+  //authorId: number;
   createdAt: Date;
   tags: Array<String>;
   active: boolean;
