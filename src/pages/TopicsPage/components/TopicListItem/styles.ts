@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TopicItem = styled.div`
-  padding: 16px;
+  padding: 15px;
   transition: box-shadow 0.3s ease-in-out;
   border-bottom: 1px solid #aaa;
 
@@ -10,8 +10,9 @@ export const TopicItem = styled.div`
   }
 
   .description {
-    font-size: 16px;
+    font-size: 25px;
     color: #00000;
+    font-weight: bold;
   }
 
   button {
@@ -45,9 +46,48 @@ export const TopicItem = styled.div`
     font-size: 10px;
   }
 
-
-  /* Estilos para as estatísticas de likes e dislikes */
   span {
     margin-left: 10px;
   }
+`;
+
+
+export const InfoTopic = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  padding: 0px;
+
+
+  .name {
+    margin-right: 8px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .city {
+    color: #777; /* Cor da cidade (menos destaque) */
+    margin-right: 8px;
+  }
+
+  .hour {
+    color: #777; /* Cor da hora (menos destaque) */
+  }
+`;
+
+
+
+export const DescriptionStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  padding: 0px;
 `;

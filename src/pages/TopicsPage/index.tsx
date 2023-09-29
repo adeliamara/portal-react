@@ -24,7 +24,7 @@ export interface Topic {
   description: string;
   author: Author;
   createdAt: Date;
-  tags: Array<String>;
+  tags: Array<string>;
   active: boolean;
 }
 
@@ -85,7 +85,7 @@ export function TopcisPage() {
       id: uuid(),
       createdAt: new Date(),
       description: text,
-      author:{ name, city},
+      author:{ city, name},
       active: true,
       tags: tagsArray
     }

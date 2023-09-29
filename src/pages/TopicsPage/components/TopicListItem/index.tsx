@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Topic, Vote, VoteType } from "../..";
-import { TopicItem } from "./styles";
+import { DescriptionStyled, InfoTopic, TopicItem } from "./styles";
 import { v4 as uuid } from 'uuid';
+import TagDetails from "../TagDetails";
 
 interface TopicListItemProps {
   topic: Topic;
-  votes:  Vote[];
+  votes: Vote[];
   onVote: (vote: Vote) => void
 }
 
@@ -31,10 +32,19 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
     <li>
       <div>
         <TopicItem>
+          <DescriptionStyled>
           <p className="description">{topic.description}</p>
-          <div className="info-topic">
-            <p>{topic.createdAt.toLocaleString()}</p>
-          </div>
+
+{topic.tags.map((tag, index) => (
+  <TagDetails key={index} tag={tag} />
+))}         
+
+          </DescriptionStyled>
+          <InfoTopic>
+            <p className="name">{topic.author.name}</p>
+            <p className="city">{topic.author.city}</p>
+            <p className="hour">{topic.createdAt.toLocaleString('pt-br')}</p>
+          </InfoTopic>
           <button onClick={() => handleVote(VoteType.UP)}>Like</button>
           <button onClick={() => handleVote(VoteType.DOWN)}>Deslike</button>
           <div className="progress-bar-container">

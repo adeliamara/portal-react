@@ -1,6 +1,6 @@
 import React from "react"
 import { useRef } from "react"
-import { Form, FormContainer } from "./styles"
+import { Form, FormContainer, InlineItems } from "./styles"
 
 interface TopicFormProps {
   onAdd: (text: string, tags: string, city: string, name: string) => void
@@ -30,10 +30,12 @@ export function TopicForm({ onAdd }: TopicFormProps) {
   return (
     <FormContainer>
         <Form onSubmit={handleSubmit}>
-            <input type="text" ref={descriptionInputRef} placeholder="Descrição da Topic" />
-            <input type="text" ref={tagsInputRef} placeholder="tAG SEPARADA POR VIRUBLA" />
-            <input type="text" ref={authorCiyInputRef} placeholder="Cidade" />
-            <input type="text" ref={authorNameInputRef} placeholder="Nome autor" />
+            <input type="text" ref={descriptionInputRef} placeholder="Descrição da Topic" required/>
+            <InlineItems>
+              <input type="text" ref={tagsInputRef} placeholder="tAG seprado por virgula" required />
+              <input type="text" ref={authorCiyInputRef} placeholder="Cidade" required/>
+              <input type="text" ref={authorNameInputRef} placeholder="Nome autor" required/>
+            </InlineItems>
             <input type="submit" value="Adicionar Topico" />
         </Form>
     </FormContainer>
