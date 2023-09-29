@@ -22,18 +22,15 @@ export interface Vote {
 export interface Topic {
   id: number;
   description: string;
-  //authorId: number;
+  author: Author;
   createdAt: Date;
   tags: Array<String>;
   active: boolean;
 }
 
 export interface Author {
-  id: number;
   name: string;
   city: string;
-  country: string;
-  created_at: Date;
 }
 
 
@@ -81,13 +78,16 @@ export function TopcisPage() {
 
 
 
-  const handleAddTopic = (text: string) => {
+  const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
+    const tagsArray = tags.split(',');
+
     const newTopic: Topic = {
       id: uuid(),
       createdAt: new Date(),
       description: text,
+      author:{ name, city},
       active: true,
-      tags: ["a"]
+      tags: tagsArray
     }
 
     addTopicInApi(newTopic)

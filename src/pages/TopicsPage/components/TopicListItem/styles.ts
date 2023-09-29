@@ -44,8 +44,7 @@ export const TopicItem = styled.div`
   .info-topic {
     font-size: 10px;
   }
-  
-  
+
 
   /* Estilos para as estatísticas de likes e dislikes */
   span {
