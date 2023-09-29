@@ -1,43 +1,54 @@
 import styled from 'styled-components';
 
-// Define um componente Styled para exibir um tópico
 export const TopicItem = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  margin-bottom: 16px;
-  border-radius: 8px;
   transition: box-shadow 0.3s ease-in-out;
+  border-bottom: 1px solid #aaa;
 
   &:hover {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-  h2 {
-    font-size: 20px;
-    margin-bottom: 12px;
-    color: #333;
-  }
-
-  p {
+  .description {
     font-size: 16px;
-    color: #666;
+    color: #00000;
   }
 
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 12px;
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 
-    span {
-      background-color: #f0f0f0;
-      color: #333;
-      padding: 4px 8px;
-      border-radius: 4px;
-      margin-right: 8px;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .progress-bar-container {
+    width: 80%;
+    height: 10px;
+    background: lightgray;
+    margin: 10px auto; /* Centraliza horizontalmente e adiciona margem superior e inferior de 10px */
+    display: flex;
+  }
+  
+  .progress-bar-like {
+    height: 100%;
+    background-color: green;
+    transition: width 0.5s ease;
+  }
+
+  .info-topic {
+    font-size: 10px;
+  }
+  
+  
+
+  /* Estilos para as estatísticas de likes e dislikes */
+  span {
+    margin-left: 10px;
   }
 `;
