@@ -33,11 +33,11 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
       <div>
         <TopicItem>
           <DescriptionStyled>
-          <p className="description">{topic.description}</p>
+            <p className="description">{topic.description}</p>
 
-{topic.tags.map((tag, index) => (
-  <TagDetails key={index} tag={tag} />
-))}         
+            {topic.tags.map((tag, index) => (
+              <TagDetails key={index} tag={tag} />
+            ))}
 
           </DescriptionStyled>
           <InfoTopic>
