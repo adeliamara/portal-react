@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Topic, Vote, VoteType } from "../..";
-import { DescriptionStyled, InfoTopic, TopicItem } from "./styles";
+import { ButtonContainer, DescriptionStyled, InfoTopic, TopicItem } from "./styles";
 import { v4 as uuid } from 'uuid';
 import TagDetails from "../TagDetails";
 
@@ -33,11 +33,11 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
       <div>
         <TopicItem>
           <DescriptionStyled>
-          <p className="description">{topic.description}</p>
+            <p className="description">{topic.description}</p>
 
-{topic.tags.map((tag, index) => (
-  <TagDetails key={index} tag={tag} />
-))}         
+            {topic.tags.map((tag, index) => (
+              <TagDetails key={index} tag={tag} />
+            ))}
 
           </DescriptionStyled>
           <InfoTopic>
@@ -45,16 +45,17 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
             <p className="city">{topic.author.city}</p>
             <p className="hour">{topic.createdAt.toLocaleString('pt-br')}</p>
           </InfoTopic>
+          <ButtonContainer>
           <button onClick={() => handleVote(VoteType.UP)}>Like</button>
           <button onClick={() => handleVote(VoteType.DOWN)}>Dislike</button>
+          </ButtonContainer>
           <div className="progress-bar-container">
-            <div
-              className="progress-bar-like"
+            <div className="progress-bar-like"
               style={{
                 width: `${likePercentage}%`,
-              }}
-            ></div>
-            <p>{likePercentage.toFixed(2)}</p>
+              }}>
+                <p className="percentage">{likePercentage.toFixed(2)}%</p>
+            </div>
           </div>
         </TopicItem>
       </div>

@@ -15,24 +15,10 @@ export const TopicItem = styled.div`
     font-weight: bold;
   }
 
-  button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #0056b3;
-  }
-
   .progress-bar-container {
-    width: 80%;
-    height: 10px;
+    height: 15px;
     background: lightgray;
-    margin: 10px auto; /* Centraliza horizontalmente e adiciona margem superior e inferior de 10px */
+    margin: 10px auto; 
     display: flex;
   }
   
@@ -42,6 +28,13 @@ export const TopicItem = styled.div`
     transition: width 0.5s ease;
   }
 
+  .percentage {
+    color: white;
+    font-size: 14px;
+    margin: 0;
+  }
+  
+
   .info-topic {
     font-size: 10px;
   }
@@ -49,6 +42,8 @@ export const TopicItem = styled.div`
   span {
     margin-left: 10px;
   }
+
+ 
 `;
 
 
@@ -62,6 +57,8 @@ export const InfoTopic = styled.div`
   color: #333;
   padding: 0px;
 
+
+ 
 
   .name {
     margin-right: 8px;
@@ -77,6 +74,8 @@ export const InfoTopic = styled.div`
   .hour {
     color: #777; /* Cor da hora (menos destaque) */
   }
+
+  
 `;
 
 
@@ -91,3 +90,22 @@ export const DescriptionStyled = styled.div`
   color: #333;
   padding: 0px;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; ;
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+`
