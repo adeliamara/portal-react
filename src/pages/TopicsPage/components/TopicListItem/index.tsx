@@ -13,17 +13,29 @@ interface TopicListItemProps {
 
 
 export function TopicListItem({ topic }: TopicListItemProps) {
-  const votes = useContext(VotesContext) ;
+  let votes: any = useContext(VotesContext) ;
   const onVote = useContext(OnVoteContext);
 
-  const totalVotes = votes == null ? 0 :  votes.filter(vote => vote.topicId === topic.id).length;
-  const likeVotes =  votes == null ? 0 : votes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.UP).length;
+  votes = votes == null ? []: votes
+
+  const adjustedVotes = votes.map((vote) => ({
+    topicId: vote.topic_id, // Mapeia 'topic_id' para 'topicId'
+    voteType: vote.vote_type, 
+    id: vote.id, 
+    
+  }));
+
+  
+  const totalVotes = adjustedVotes.filter(vote => vote.topicId === topic.id).length;
+  const likeVotes =  adjustedVotes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.UP).length;
+ 
+  
+ 
   const likePercentage = totalVotes === 0 ? 0 : (likeVotes / totalVotes) * 100;
 
 
   const handleVote = (type: VoteType.UP | VoteType.DOWN) => {
-    const vote: Vote = {
-      id: uuid(),
+    const vote: any = {
       topicId: topic.id,
       voteType: type,
       createdAt: new Date(),
@@ -31,8 +43,6 @@ export function TopicListItem({ topic }: TopicListItemProps) {
 
     onVote(vote);
   };
-
-  console.log(topic.author.name)
 
 
   return (

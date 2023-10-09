@@ -11,16 +11,19 @@ type ActionUpdated = { type: ActionType.UPDATED, payload: { vote: Vote } }
 type ActionRemoved = { type: ActionType.REMOVED, payload: { id: string } }
 type ActionLoaded = { type: ActionType.LOADED, payload: { votes: Vote[] } }
 
-type Action = ActionAdded | ActionUpdated | ActionRemoved | ActionLoaded
+export type Action = ActionAdded | ActionUpdated | ActionRemoved | ActionLoaded
 
 
 function reducer(state: VoteState, action: Action): VoteState {
 
   switch (action.type) {
     case ActionType.ADDED: {
-      const new_vote = action.payload.vote
-      return { votes: [new_vote, ...state.votes] }
+      const newVote = action.payload.vote;
+      const updatedVotes = [...state.votes, newVote]; // Adiciona o novo voto à matriz existente de votos
+    
+      return { votes: updatedVotes };
     }
+    
     case ActionType.UPDATED: {
       const vote_updated = action.payload.vote
       const votes = state.votes.filter(vote =>

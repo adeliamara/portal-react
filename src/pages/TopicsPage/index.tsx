@@ -55,7 +55,6 @@ export function TopcisPage() {
     const fetchData = async () => {
       try {
         const data = await api.fetchTopics(); // Use 'await' para esperar a resolução da promessa
-        console.log(data)
         dispatchTopics({ type: ActionType.LOADED, payload: { topics: data } })
       } catch (err) {
         console.log(err);
@@ -64,7 +63,8 @@ export function TopcisPage() {
   
     fetchData(); 
   
-  }, []);
+  },[]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,29 +77,43 @@ export function TopcisPage() {
     };
   
     fetchData(); 
-  }, []);
+  }, );
 
   const addTopicInApi = async (topic: Topic) => {
+    dispatchTopics({ type: ActionType.ADDED, payload: { topic: topic } })
+
     try {
-      await api.addTopic(topic)
+
+      const topicAdd = await api.addTopic(topic);
+      topic.id = topicAdd.id;
+
+      dispatchTopics({ type: ActionType.UPDATED, payload: { topic: topic } });
     } catch (err) {
+      dispatchTopics({ type: ActionType.REMOVED, payload: { id: String(topic.id) } });
       alert(err);
-      handleRemoveTopic(topic);
     }
   };
-  
-    
-  const addLikeInApi = async (vote: Vote) => {
+
+  const handleVote = async (newVote: Vote) => {
+    dispatchVotes({ type: ActionType.ADDED, payload: { vote: newVote } });
+
     try {
-      await api.addVote(vote)
+      const response = await api.addVote(newVote);
+      newVote.id = response.id;
+      dispatchVotes({ type: ActionType.ADDED, payload: { vote: newVote } });
+
     } catch (err) {
+      handleRemoveVote(newVote);
       alert(err);
-      handleRemoveVote(vote);
     }
-  }
+  };
 
   const handleRemoveTopic = (topicToRemove: Topic) =>{
     dispatchTopics({ type: ActionType.REMOVED, payload: { id: String(topicToRemove.id)} })
+  }
+
+  const handleUpdateTopic = (topicToUpdate: Topic) =>{
+    dispatchTopics({ type: ActionType.UPDATED, payload: { topic: topicToUpdate} })
   }
 
   
@@ -110,35 +124,31 @@ export function TopcisPage() {
   const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
     const tagsArray = tags.split(',');
   
-    const newTopic: Topic = {
-      id: uuid(),
-      createdAt: '',
+    const newTopic: any = {
+      id: new uuid(),
       description: text,
       author: { city, name },
       active: true,
       tags: tagsArray.map(tagName => ({ name: tagName })),
     };
 
-    dispatchTopics({ type: ActionType.ADDED, payload: { topic: newTopic } })
     addTopicInApi(newTopic)
   }
 
-  const handleVote = (newVote) => {
-    dispatchVotes({ type: ActionType.ADDED, payload: { vote: newVote } })
-    addLikeInApi(newVote)
-  };
 
   return (
     <>
      <TopicsContext.Provider value={topics}>
       <TopicsDispatchContext.Provider value={dispatchTopics}>
       <VotesContext.Provider value={votes}>
+      <VotesDispatchContext.Provider value={dispatchVotes}>
         <TopicPage>
           <TopicForm onAdd={handleAddTopic} />
           <OnVoteContext.Provider value={(newVote) => handleVote(newVote)}>
             <TopicList/>
         </OnVoteContext.Provider>
         </TopicPage>
+        </VotesDispatchContext.Provider>
       </VotesContext.Provider>
       </TopicsDispatchContext.Provider>
      </TopicsContext.Provider>
