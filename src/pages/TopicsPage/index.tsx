@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import { TopicList } from './components/TopicList';
 import api from '../../services/api';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { TopicForm } from './components/TopicForm';
 import { TopicPage } from './styles';
+import { ActionType, TopicReducer } from '../../Reducer/TopicReducer';
+import { VoteReducer } from '../../Reducer/VoteReducer';
 
 
 export enum VoteType {
@@ -37,14 +39,15 @@ export interface Author {
 
 export function TopcisPage() {
 
-  const [topics, setTopic] = useState<Topic[]>([])
-  const [votes, setVotes] = useState<Vote[]>([]);
+  const [{ topics }, dispatchTopic] = useReducer(TopicReducer, { topics: [] })
+  const [{ votes }, dispatchVotes] = useReducer(VoteReducer, { votes: [] })
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const topics = await api.fetchTopics(); // Use 'await' para esperar a resolução da promessa
-        setTopic(topics);
+        const data = await api.fetchTopics(); // Use 'await' para esperar a resolução da promessa
+        dispatchTopic({ type: ActionType.LOADED, payload: { topics: data } })
       } catch (err) {
         console.log(err);
       }
@@ -57,8 +60,8 @@ export function TopcisPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const votes = await api.fetchVotes(); // Use 'await' para esperar a resolução da promessa
-        setVotes(votes);
+        const data = await api.fetchVotes(); // Use 'await' para esperar a resolução da promessa
+        dispatchVotes({ type: ActionType.LOADED, payload: { votes: data } })
       } catch (err) {
         console.error(err);
       }
@@ -87,16 +90,12 @@ export function TopcisPage() {
   }
 
   const handleRemoveTopic = (topicToRemove: Topic) =>{
-    const updatedTopics = topics.filter((topic) => topic.id !== topicToRemove.id);
-
-    setTopic(updatedTopics);
+    dispatchTopic({ type: ActionType.REMOVED, payload: { id: String(topicToRemove.id)} })
   }
 
   
   const handleRemoveVote = (voteToRemove: Vote) =>{
-    const updatedVotes = votes.filter((vote) => vote.id !== voteToRemove.id);
-
-    setVotes(updatedVotes);
+    dispatchVotes({ type: ActionType.REMOVED, payload: { id: String(voteToRemove.id)} })
   }
 
   const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
@@ -111,14 +110,16 @@ export function TopcisPage() {
       tags: tagsArray
     }
 
-    setTopic([newTopic, ...topics])
+    dispatchTopic({ type: ActionType.ADDED, payload: { topic: newTopic } })
     addTopicInApi(newTopic)
   }
 
   const handleVote = (newVote) => {
+    dispatchVotes({ type: ActionType.ADDED, payload: { vote: newVote } })
     addLikeInApi(newVote)
-    setVotes([newVote, ...votes]);
   };
+
+
 
 
   return (
@@ -130,3 +131,4 @@ export function TopcisPage() {
     </>
   )
 }
+

@@ -10,7 +10,9 @@ interface TopicListItemProps {
   onVote: (vote: Vote) => void
 }
 
+
 export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
+
 
   const totalVotes = votes.filter(vote => vote.topicId === topic.id).length;
   const likeVotes = votes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.UP).length;
