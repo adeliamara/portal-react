@@ -3,7 +3,6 @@ import { Topic, Vote, VoteType } from "../..";
 import { ButtonContainer, DescriptionStyled, InfoTopic, TopicItem } from "./styles";
 import { v4 as uuid } from 'uuid';
 import TagDetails from "../TagDetails";
-import { format } from 'date-fns';
 
 
 interface TopicListItemProps {
