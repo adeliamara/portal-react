@@ -41,44 +41,62 @@ export function TopcisPage() {
   const [votes, setVotes] = useState<Vote[]>([]);
 
   useEffect(() => {
-    api
-      .get("/topics")
-      .then((response) => setTopic(response.data))
-      .catch((err) => {
-        console.error("ops! ocorreu um erro" + err);
-      });
+    const fetchData = async () => {
+      try {
+        const topics = await api.fetchTopics(); // Use 'await' para esperar a resolução da promessa
+        setTopic(topics);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  
+    fetchData(); 
+  
   }, []);
 
   useEffect(() => {
-    api
-      .get("/votes")
-      .then((response) => setVotes(response.data))
-      .catch((err) => {
-        console.error("ops! ocorreu um erro" + err);
-      });
+    const fetchData = async () => {
+      try {
+        const votes = await api.fetchVotes(); // Use 'await' para esperar a resolução da promessa
+        setVotes(votes);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
+    fetchData(); 
   }, []);
 
-  const addTopicInApi = (topic: Topic) => {
-
-    const response = api.post("/topics", topic)
-      .catch((err) => {
-        console.error("ops! ocorreu um erro" + err);
-        handleRemoveTopic(topic)
-      });
-  }
+  const addTopicInApi = async (topic: Topic) => {
+    try {
+      await api.addTopic(topic)
+    } catch (err) {
+      alert(err);
+      handleRemoveTopic(topic);
+    }
+  };
+  
     
-  const addLikeInApi = (vote: Vote) => {
-
-    const response = api.post("/votes", vote)
-      .catch((err) => {
-        console.error("ops! ocorreu um erro" + err);
-      });
+  const addLikeInApi = async (vote: Vote) => {
+    try {
+      await api.addVote(vote)
+    } catch (err) {
+      alert(err);
+      handleRemoveVote(vote);
+    }
   }
 
   const handleRemoveTopic = (topicToRemove: Topic) =>{
     const updatedTopics = topics.filter((topic) => topic.id !== topicToRemove.id);
 
     setTopic(updatedTopics);
+  }
+
+  
+  const handleRemoveVote = (voteToRemove: Vote) =>{
+    const updatedVotes = votes.filter((vote) => vote.id !== voteToRemove.id);
+
+    setVotes(updatedVotes);
   }
 
   const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
@@ -102,10 +120,6 @@ export function TopcisPage() {
     setVotes([newVote, ...votes]);
   };
 
-  // const handleRemoveTopic = (topic: Topic) => {
-  //   const filtradas = topics.filter(t => t.id !== topic.id)
-  //   setTopics(filtradas)
-  // }
 
   return (
     <>
