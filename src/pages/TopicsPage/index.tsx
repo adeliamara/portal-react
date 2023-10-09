@@ -7,6 +7,9 @@ import { TopicForm } from './components/TopicForm';
 import { TopicPage } from './styles';
 import { ActionType, TopicReducer } from '../../Reducer/TopicReducer';
 import { VoteReducer } from '../../Reducer/VoteReducer';
+import { TopicsContext, TopicsDispatchContext } from '../../Providers/TopicContext';
+import { VotesContext, VotesDispatchContext } from '../../Providers/VoteContext';
+import { OnVoteContext } from '../../Providers/OnVoteContext';
 
 
 export enum VoteType {
@@ -44,7 +47,7 @@ export interface Tag {
 
 export function TopcisPage() {
 
-  const [{ topics }, dispatchTopic] = useReducer(TopicReducer, { topics: [] })
+  const [{ topics }, dispatchTopics] = useReducer(TopicReducer, { topics: [] })
   const [{ votes }, dispatchVotes] = useReducer(VoteReducer, { votes: [] })
 
 
@@ -53,7 +56,7 @@ export function TopcisPage() {
       try {
         const data = await api.fetchTopics(); // Use 'await' para esperar a resolução da promessa
         console.log(data)
-        dispatchTopic({ type: ActionType.LOADED, payload: { topics: data } })
+        dispatchTopics({ type: ActionType.LOADED, payload: { topics: data } })
       } catch (err) {
         console.log(err);
       }
@@ -96,7 +99,7 @@ export function TopcisPage() {
   }
 
   const handleRemoveTopic = (topicToRemove: Topic) =>{
-    dispatchTopic({ type: ActionType.REMOVED, payload: { id: String(topicToRemove.id)} })
+    dispatchTopics({ type: ActionType.REMOVED, payload: { id: String(topicToRemove.id)} })
   }
 
   
@@ -116,7 +119,7 @@ export function TopcisPage() {
       tags: tagsArray.map(tagName => ({ name: tagName })),
     };
 
-    dispatchTopic({ type: ActionType.ADDED, payload: { topic: newTopic } })
+    dispatchTopics({ type: ActionType.ADDED, payload: { topic: newTopic } })
     addTopicInApi(newTopic)
   }
 
@@ -127,10 +130,19 @@ export function TopcisPage() {
 
   return (
     <>
-      <TopicPage>
-        <TopicForm onAdd={handleAddTopic} />
-        <TopicList topics={topics} onVote={handleVote} votes={votes} />
-      </TopicPage>
+     <TopicsContext.Provider value={topics}>
+      <TopicsDispatchContext.Provider value={dispatchTopics}>
+      <VotesContext.Provider value={votes}>
+        <TopicPage>
+          <TopicForm onAdd={handleAddTopic} />
+          <OnVoteContext.Provider value={(newVote) => handleVote(newVote)}>
+            <TopicList/>
+        </OnVoteContext.Provider>
+        </TopicPage>
+      </VotesContext.Provider>
+      </TopicsDispatchContext.Provider>
+     </TopicsContext.Provider>
+      
     </>
   )
 }

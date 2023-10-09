@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Topic, Vote, VoteType } from "../..";
 import { ButtonContainer, DescriptionStyled, InfoTopic, TopicItem } from "./styles";
 import { v4 as uuid } from 'uuid';
 import TagDetails from "../TagDetails";
+import { VotesContext } from "../../../../Providers/VoteContext";
+import { OnVoteContext } from "../../../../Providers/OnVoteContext";
 
 
 interface TopicListItemProps {
   topic: Topic;
-  votes: Vote[];
-  onVote: (vote: Vote) => void
 }
 
 
+export function TopicListItem({ topic }: TopicListItemProps) {
+  const votes = useContext(VotesContext) ;
+  const onVote = useContext(OnVoteContext);
 
-export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
-
-
-  const totalVotes = votes.filter(vote => vote.topicId === topic.id).length;
-  const likeVotes = votes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.UP).length;
+  const totalVotes = votes == null ? 0 :  votes.filter(vote => vote.topicId === topic.id).length;
+  const likeVotes =  votes == null ? 0 : votes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.UP).length;
   const likePercentage = totalVotes === 0 ? 0 : (likeVotes / totalVotes) * 100;
 
 
