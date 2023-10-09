@@ -25,8 +25,8 @@ export interface Topic {
   id: number;
   description: string;
   author: Author;
-  createdAt: Date;
-  tags: Array<string>;
+  createdAt: String;
+  tags: Array<Tag>;
   active: boolean;
 }
 
@@ -35,6 +35,10 @@ export interface Author {
   city: string;
 }
 
+
+export interface Tag {
+  name: string;
+}
 
 
 
@@ -48,6 +52,7 @@ export function TopcisPage() {
     const fetchData = async () => {
       try {
         const data = await api.fetchTopics(); // Use 'await' para esperar a resolução da promessa
+        console.log(data)
         dispatchTopic({ type: ActionType.LOADED, payload: { topics: data } })
       } catch (err) {
         console.log(err);
@@ -62,7 +67,7 @@ export function TopcisPage() {
     const fetchData = async () => {
       try {
         const data = await api.fetchVotes(); // Use 'await' para esperar a resolução da promessa
-        dispatchVotes({ type: ActionType.LOADED, payload: { topics: data } })
+        dispatchVotes({ type: ActionType.LOADED, payload: { votes: data } })
       } catch (err) {
         console.error(err);
       }
@@ -101,15 +106,15 @@ export function TopcisPage() {
 
   const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
     const tagsArray = tags.split(',');
-
+  
     const newTopic: Topic = {
       id: uuid(),
-      createdAt: new Date(),
+      createdAt: '',
       description: text,
-      author:{ city, name},
+      author: { city, name },
       active: true,
-      tags: tagsArray
-    }
+      tags: tagsArray.map(tagName => ({ name: tagName })),
+    };
 
     dispatchTopic({ type: ActionType.ADDED, payload: { topic: newTopic } })
     addTopicInApi(newTopic)
@@ -119,9 +124,6 @@ export function TopcisPage() {
     dispatchVotes({ type: ActionType.ADDED, payload: { vote: newVote } })
     addLikeInApi(newVote)
   };
-
-
-
 
   return (
     <>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Topic } from '../pages/TopicsPage';
 import { Vote } from '../pages/TopicsPage';
 
-const API_BASE_URL = 'http://localhost:3000'; // Substitua pela sua URL da API
+const API_BASE_URL = 'https://portal-rails.onrender.com'; // Substitua pela sua URL da API
 
 class Api {
   static apiInstance = axios.create({

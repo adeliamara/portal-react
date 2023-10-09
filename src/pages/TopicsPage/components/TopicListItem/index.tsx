@@ -3,6 +3,8 @@ import { Topic, Vote, VoteType } from "../..";
 import { ButtonContainer, DescriptionStyled, InfoTopic, TopicItem } from "./styles";
 import { v4 as uuid } from 'uuid';
 import TagDetails from "../TagDetails";
+import { format } from 'date-fns';
+
 
 interface TopicListItemProps {
   topic: Topic;
@@ -11,13 +13,14 @@ interface TopicListItemProps {
 }
 
 
+
 export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
 
 
   const totalVotes = votes.filter(vote => vote.topicId === topic.id).length;
   const likeVotes = votes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.UP).length;
-  const deslikeVotes = votes.filter(vote => vote.topicId === topic.id && vote.voteType === VoteType.DOWN).length;
   const likePercentage = totalVotes === 0 ? 0 : (likeVotes / totalVotes) * 100;
+
 
   const handleVote = (type: VoteType.UP | VoteType.DOWN) => {
     const vote: Vote = {
@@ -30,6 +33,9 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
     onVote(vote);
   };
 
+  console.log(topic.author.name)
+
+
   return (
     <li>
       <div>
@@ -38,25 +44,26 @@ export function TopicListItem({ topic, onVote, votes }: TopicListItemProps) {
             <p className="description">{topic.description}</p>
 
             {topic.tags.map((tag, index) => (
-              <TagDetails key={index} tag={tag} />
+              <TagDetails key={index} tag={tag.name} />
             ))}
+
 
           </DescriptionStyled>
           <InfoTopic>
             <p className="name">{topic.author.name}</p>
             <p className="city">{topic.author.city}</p>
-            <p className="hour">{topic.createdAt.toLocaleString('pt-br')}</p>
+            <p className="hour">{topic.createdAt}</p>
           </InfoTopic>
           <ButtonContainer>
-          <button onClick={() => handleVote(VoteType.UP)}>Like</button>
-          <button onClick={() => handleVote(VoteType.DOWN)}>Dislike</button>
+            <button onClick={() => handleVote(VoteType.UP)}>Like</button>
+            <button onClick={() => handleVote(VoteType.DOWN)}>Dislike</button>
           </ButtonContainer>
           <div className="progress-bar-container">
             <div className="progress-bar-like"
               style={{
                 width: `${likePercentage}%`,
               }}>
-                <p className="percentage">{likePercentage.toFixed(2)}%</p>
+              <p className="percentage">{likePercentage.toFixed(2)}%</p>
             </div>
           </div>
         </TopicItem>
