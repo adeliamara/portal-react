@@ -31,7 +31,8 @@ function reducer(state: TopicState, action: Action): TopicState {
     }
     case ActionType.REMOVED: {
       const removed_id = action.payload.id
-      return { topics: state.topics.filter(t => Number(t.id)!== Number(removed_id)) }
+      const updatedTopics = state.topics.filter(topic => String(topic.id) !== String(removed_id));
+      return { topics: updatedTopics };
     }
     case ActionType.LOADED: {
       return { topics: [...action.payload.topics] }

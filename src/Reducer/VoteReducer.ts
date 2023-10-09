@@ -31,7 +31,7 @@ function reducer(state: VoteState, action: Action): VoteState {
     }
     case ActionType.REMOVED: {
       const removed_id = action.payload.id
-      return { votes: state.votes.filter(t => Number(t.id)!== Number(removed_id)) }
+      return { votes: state.votes.filter(t => String(t.id)!== String(removed_id)) }
     }
     case ActionType.LOADED: {
       return { votes: [...action.payload.votes] }

@@ -37,6 +37,7 @@ export interface Author {
 
 
 
+
 export function TopcisPage() {
 
   const [{ topics }, dispatchTopic] = useReducer(TopicReducer, { topics: [] })
@@ -61,7 +62,7 @@ export function TopcisPage() {
     const fetchData = async () => {
       try {
         const data = await api.fetchVotes(); // Use 'await' para esperar a resolução da promessa
-        dispatchVotes({ type: ActionType.LOADED, payload: { votes: data } })
+        dispatchVotes({ type: ActionType.LOADED, payload: { topics: data } })
       } catch (err) {
         console.error(err);
       }
