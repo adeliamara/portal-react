@@ -11,7 +11,7 @@ type ActionUpdated = { type: ActionType.UPDATED, payload: { topic: Topic } }
 type ActionRemoved = { type: ActionType.REMOVED, payload: { id: string } }
 type ActionLoaded = { type: ActionType.LOADED, payload: { topics: Topic[] } }
 
-type Action = ActionAdded | ActionUpdated | ActionRemoved | ActionLoaded
+export type Action = ActionAdded | ActionUpdated | ActionRemoved | ActionLoaded
 
 
 function reducer(state: TopicState, action: Action): TopicState {
