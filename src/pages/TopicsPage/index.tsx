@@ -34,6 +34,7 @@ export interface Author {
 }
 
 
+
 export function TopcisPage() {
 
   const [topics, setTopic] = useState<Topic[]>([])
@@ -62,6 +63,7 @@ export function TopcisPage() {
     const response = api.post("/topics", topic)
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
+        handleRemoveTopic(topic)
       });
   }
     
@@ -71,6 +73,12 @@ export function TopcisPage() {
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
       });
+  }
+
+  const handleRemoveTopic = (topicToRemove: Topic) =>{
+    const updatedTopics = topics.filter((topic) => topic.id !== topicToRemove.id);
+
+    setTopic(updatedTopics);
   }
 
   const handleAddTopic = (text: string, tags: string, city: string, name: string) => {
@@ -85,8 +93,8 @@ export function TopcisPage() {
       tags: tagsArray
     }
 
-    addTopicInApi(newTopic)
     setTopic([newTopic, ...topics])
+    addTopicInApi(newTopic)
   }
 
   const handleVote = (newVote) => {
